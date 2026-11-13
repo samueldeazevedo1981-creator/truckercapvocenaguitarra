@@ -1,0 +1,12 @@
+Trucker Cap Você na Guitarra
+Interface e integração: Trucker Cap.
+Motor: demucs-web 1.0.2, MIT (vendor/demucs/LICENSE).
+Alterações locais: correção de contagem de blocos e descarte de tensores após inferência.
+ONNX Runtime Web 1.23.2, MIT (vendor/ort/LICENSE).
+IA: Meta HTDemucs de seis fontes. Exportação ONNX por StemSplit. Veja vendor/demucs/DEMUCS-LICENSE e a ficha do modelo.
+Fontes: https://github.com/timcsy/demucs-web e https://github.com/facebookresearch/demucs e https://github.com/microsoft/onnxruntime
+Modelo: https://huggingface.co/alekshandru/htdemucs-6s-onnx
+Nenhuma afiliação com Moises. Nenhum serviço de IA pago ou chave de API.
+Resultados de separação são estimativas, não gravações originais isoladas. Use áudio para o qual você possui autorização.
+
+MP3: LAME/lamejs 1.2.1, LGPL-3.0, carregado como biblioteca separada sem alterações. https://github.com/zhuker/lamejs e https://lame.sourceforge.net. Aviso original: vendor/lame/LICENSE. Código-fonte correspondente: vendor/lame/lamejs-1.2.1-source.tgz. Pode substituir a biblioteca mantendo API compatível.
