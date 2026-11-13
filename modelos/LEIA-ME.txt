@@ -1,3 +1,0 @@
-Para o piloto local, coloque aqui os arquivos BS-Rofo-SW-Fixed.ckpt e BS-Rofo-SW-Fixed.yaml.
-Renomeie as cópias para BS-Roformer-SW.ckpt e BS-Roformer-SW.yaml, respectivamente.
-Use somente pesos de procedência confiável. O espelho usado como referência informa licença desconhecida.
