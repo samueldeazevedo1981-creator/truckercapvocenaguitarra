@@ -1,0 +1,71 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#00cf70"><meta name="description" content="Trucker Cap Você na Guitarra: isole a guitarra, estude devagar e toque com a banda."><title>Trucker Cap Você na Guitarra</title><link rel="icon" href="./icon-192.png" type="image/png"><link rel="apple-touch-icon" href="./icon-180.png"><link rel="manifest" href="./manifest.webmanifest"><link rel="stylesheet" href="./style.css"><script src="./install.js"></script></head><body>
+<div class="workspace" id="workspace"><header class="topbar"><div>TRUCKER CAP STUDIO</div><div class="top-actions"><span id="offlineStatus" hidden></span><button type="button" id="installApp" class="small-button"><span aria-hidden="true">↓</span> Instalar app</button><button type="button" id="helpTop" class="small-button">Manual de instruções</button></div></header><button id="helpBtn" hidden>Como usar</button>
+<main><section class="heading studio-hero"><img class="hero-brand" src="./icon-512.png" width="512" height="512" alt="Marca Trucker Cap Você na Guitarra"><div class="hero-copy"><p class="eyebrow"><span class="mini-dot"></span> ESCUTAR · APRENDER · TOCAR</p><h1>Você na<br><span>Guitarra</span></h1><p>Isole riffs e solos, estude no seu ritmo e toque no lugar do guitarrista.</p></div><img class="hero-logo" src="./logo.png" width="220" height="220" alt="Guitarrista tocando uma guitarra verde"></section>
+<div class="setup-grid"><section class="upload-panel panel"><div class="panel-label">SUA MÚSICA <b id="fileMeta">MP3 / WAV</b></div><label class="dropzone" id="dropzone" for="audioFile"><span class="upload-icon">↑</span><strong id="fileLabel">Escolher música</strong><span id="fileHint">Toque para escolher ou arraste um áudio.</span><small>MP3 ou WAV</small></label><input id="audioFile" type="file" accept=".mp3,.wav,audio/mpeg,audio/wav,audio/x-wav" class="audio-picker" aria-label="Escolher música em MP3 ou WAV"></section></div>
+<div class="process-bar"><div><span class="mini-dot"></span><span id="status" role="status" aria-live="polite">Escolha um MP3 ou WAV. Na primeira vez, o app baixa o modelo automaticamente.</span></div><div><button id="cancel" class="text-button" hidden>Cancelar</button><button id="roformerButton" class="secondary" hidden disabled>Testar Roformer</button><button id="separate" class="primary" disabled>Preparar música <span>↗</span></button></div></div><progress id="progress" max="1" value="0" hidden></progress>
+<section class="mixer panel"><div class="mixer-heading"><div><h2 id="projectName">Prepare uma música para praticar.</h2></div><div class="export-options" aria-label="Exportar áudio"><label>FORMATO<select id="exportFormat"><option value="mp3" selected>MP3</option><option value="wav">WAV</option></select></label><label>QUALIDADE MP3<select id="mp3Bitrate"><option value="128">128 kbps</option><option value="192" selected>192 kbps</option><option value="256">256 kbps</option><option value="320">320 kbps</option></select></label><button id="downloadMix" class="secondary" disabled>↓ Baixar áudio</button></div></div><div id="emptyMixer" class="empty-mixer"><span>∿</span><strong>Escolha uma música para estudar.</strong><p>Depois de processar, escolha entre ouvir só a guitarra e tocar com a banda.</p></div><div id="trackList" class="practice" hidden>
+<div class="practice-modes">
+<button id="originalMode" class="secondary" aria-pressed="false" disabled><strong>Música inteira</strong><small>Ouça o áudio original</small></button>
+<button id="noGuitar" class="secondary" aria-pressed="false" disabled><strong>Sem Guitarra</strong><small>Toque com a banda</small></button>
+<button id="soloGuitar" class="secondary" aria-pressed="true" disabled><strong>Só Guitarra</strong><small>Tire riffs e solos de ouvido</small></button>
+<button id="noGuitarVoice" class="secondary optional-mode" aria-pressed="false" disabled><strong>Sem Guitarra e Voz</strong><small>Cante enquanto toca</small></button>
+</div>
+<p id="legacyOriginal" class="micro" hidden>Para ouvir o original nesta faixa salva, prepare o arquivo novamente.</p>
+<p id="legacyModes" class="micro" hidden>Para usar Sem Guitarra e Voz nesta faixa antiga, prepare o arquivo original novamente.</p>
+<div class="practice-settings">
+<label>Velocidade <select id="practiceSpeed" disabled aria-describedby="practiceSpeedNote">
+<option value="0.5">50%</option><option value="0.6">60%</option><option value="0.7">70%</option><option value="0.8">80%</option><option value="0.9">90%</option><option value="1" selected>100%</option>
+</select></label>
+<button id="saveSong" class="secondary" disabled>+ Adicionar ao repertório</button>
+</div>
+<p class="micro" id="practiceSpeedNote">A afinação é preservada ao desacelerar. O download sai no andamento original.</p>
+</div><audio id="practiceAudio" preload="auto" hidden></audio><div class="transport"><button id="play" class="play-button" disabled aria-label="Reproduzir faixas">▶</button><button id="stop" class="stop-button" disabled aria-label="Voltar ao início">■</button><span id="position">0:00</span><input id="seek" type="range" min="0" max="1" value="0" step=".01" disabled aria-label="Posição da reprodução"><span id="duration">0:00</span><span class="transport-label">STEREO / 44.1 kHz</span></div></section>
+<section class="panel repertoire">
+<h2>Meu Repertório</h2>
+<p id="noSongs">Depois de separar uma música, adicione-a aqui para praticar novamente.</p>
+<label><select id="songList" aria-label="Música do repertório" hidden disabled></select></label>
+<button id="openSong" class="secondary" hidden disabled>Abrir</button>
+<button id="removeSong" class="text-button" hidden disabled>Remover</button>
+</section>
+<details class="advanced"><summary>Opções avançadas</summary><div class="setup-grid"><section class="panel upload-panel"><div class="clip-options"><label>INÍCIO DO TRECHO <div><input id="clipStart" type="number" min="0" step="1" value="0" inputmode="numeric"><span>segundos</span></div></label><label>DURAÇÃO<select id="clipLength"><option value="full" selected>Música inteira</option><option value="30">30 segundos · teste</option><option value="60">1 minuto</option><option value="120">2 minutos</option><option value="custom">Trecho personalizado</option></select></label><label id="customLengthWrap" hidden>DURAÇÃO PERSONALIZADA<input id="customLength" type="number" min="1" step="1" value="60" inputmode="numeric"><small>segundos</small></label></div><label class="speed-choice">PROCESSAMENTO<select id="separationMode"><option value="fast" selected>Rápido · menor sobreposição</option><option value="quality">Qualidade · maior sobreposição</option></select></label><button id="originalMp3" class="secondary original-convert" disabled>Converter original para MP3</button></section>
+<section id="model" class="model-panel panel"><div class="panel-label"><span>02</span> PREPARE A IA <b>HTDEMUCS 6S</b></div><h2>Prepare o<br><em>separador.</em></h2><p>Baixe o modelo uma vez para este navegador. O processamento acontece aqui, usando a memória e o processador do aparelho.</p><div class="model-row"><span class="model-symbol">◇</span><div><strong>HTDemucs · ONNX</strong><small id="modelStatus">Modelo ainda não preparado · cerca de 136 MB</small></div></div><div class="model-actions"><button id="loadModel" class="secondary">↓ Preparar IA</button><button id="localModelBtn" class="text-button">Usar modelo local</button><input type="file" id="modelFile" accept=".onnx" hidden></div><p class="micro">A primeira preparação exige internet ou o arquivo do modelo. O navegador pode remover o cache se faltar espaço.</p></section></div>
+</details>
+<footer class="bottom-footer"><span>Trucker Cap Você na Guitarra · <a href="./LICENSES.txt" target="_blank" rel="noopener">Créditos e licenças ↗</a></span></footer>
+</main></div><dialog id="help" class="guide-dialog" aria-labelledby="manualTitle">
+<form method="dialog"><button class="dialog-close" id="closeHelp" aria-label="Fechar manual">✕</button></form>
+<h2 id="manualTitle">Manual de instruções</h2>
+<h3>1. Prepare sua música</h3>
+<ol><li>Toque em <b>Escolher música</b> e selecione um MP3 ou WAV. No computador, você também pode arrastar o arquivo.</li>
+<li>Toque em <b>Preparar música</b>. Na primeira vez, o app baixa cerca de 136 MB. Deixe o app em primeiro plano até terminar. O processamento usa o aparelho e o modelo fica salvo quando houver espaço.</li>
+<li>Para estudar só um solo ou riff, abra <b>Opções avançadas</b>, informe o início em segundos e escolha a duração antes de preparar a música.</li></ol>
+<h3>2. Escute e toque</h3>
+<ul><li><b>Música inteira</b> toca o áudio original, com todos os instrumentos e a voz. Se você preparou um trecho, o modo toca o original daquele trecho.</li><li><b>Só Guitarra</b> isola a guitarra para você tirar a parte de ouvido.</li><li><b>Sem Guitarra</b> mantém a banda e a voz para você tocar junto.</li><li><b>Sem Guitarra e Voz</b> deixa o acompanhamento para você cantar enquanto toca.</li><li>Use ▶ para tocar ou pausar, ■ para voltar ao início e a barra para ir ao trecho desejado. Ajuste a velocidade de 50% a 100% mantendo a afinação.</li></ul>
+<h3>3. Salve o repertório e exporte</h3>
+<p>Toque em <b>Adicionar ao repertório</b> para guardar as versões no navegador. Em <b>Meu Repertório</b>, selecione a música e toque em <b>Abrir</b> para praticar sem separar novamente. Ao terminar uma base salva, a próxima abre pronta para tocar.</p>
+<p>Ao lado do nome da música, escolha MP3 ou WAV e toque em <b>Baixar áudio</b>. O arquivo segue o modo selecionado e sai no andamento original.</p>
+<h3>4. Instale o app</h3>
+<p>Abra o endereço HTTPS no navegador do aparelho e toque em <b>Instalar app</b>. Se a instalação direta não aparecer, siga o caminho do seu sistema.</p>
+<dl class="install-platforms">
+<dt>Android · Chrome</dt><dd>Abra o menu ⋮ e toque em <b>Adicionar à tela inicial</b> ou <b>Instalar app</b>. Confirme quando solicitado.</dd>
+<dt>iPhone e iPad · Safari</dt><dd>Abra <b>Compartilhar → Adicionar à Tela de Início</b>. Ative <b>Abrir como app da web</b> se aparecer e toque em <b>Adicionar</b>.</dd>
+<dt>Windows · Chrome ou Edge</dt><dd>No Chrome, abra <b>⋮ → Transmitir, salvar e compartilhar → Instalar esta página como um app</b>. No Edge, procure <b>Aplicativos → Instalar este site como um aplicativo</b>.</dd>
+<dt>Mac · Safari ou Chrome</dt><dd>No Safari do macOS Sonoma 14 ou posterior, use <b>Arquivo → Adicionar ao Dock</b>. No Chrome, use a opção de instalar a página no menu ⋮.</dd>
+</dl>
+<h3>5. Se algo falhar</h3>
+<ul><li><b>Falha no download:</b> abra <b>Opções avançadas → Usar modelo local</b> e selecione o <a href="https://huggingface.co/alekshandru/htdemucs-6s-onnx/resolve/main/htdemucs_6s_fp16weights.onnx" target="_blank" rel="noopener">HTDemucs ONNX de seis fontes</a>.</li><li><b>Separação interrompida:</b> tente um trecho de 30 segundos. Deixe a tela ligada e o app em primeiro plano durante o processamento.</li><li><b>Sem áudio:</b> toque em ▶ e confira a saída de áudio e o volume de mídia.</li><li><b>Armazenamento:</b> o repertório fica no navegador ou app instalado em que foi salvo. Exporte os áudios que deseja guardar fora dele. Limpar os dados do site pode apagar o repertório e o modelo.</li></ul>
+<button type="button" class="secondary" id="clearModel">Remover modelo salvo</button>
+</dialog>
+<dialog id="installHelp" class="guide-dialog" aria-labelledby="installTitle">
+<form method="dialog"><button class="dialog-close" aria-label="Fechar instalação">✕</button></form>
+<h2 id="installTitle">Instalar app</h2>
+<dl class="install-platforms">
+<dt data-install-platform="android">Android · Chrome</dt><dd data-install-platform="android">Abra o menu ⋮ e toque em <b>Adicionar à tela inicial</b> ou <b>Instalar app</b>. Confirme quando solicitado.</dd>
+<dt data-install-platform="ios">iPhone e iPad · Safari</dt><dd data-install-platform="ios">Abra <b>Compartilhar → Adicionar à Tela de Início</b>. Ative <b>Abrir como app da web</b> se aparecer e toque em <b>Adicionar</b>.</dd>
+<dt data-install-platform="windows">Windows · Chrome ou Edge</dt><dd data-install-platform="windows">No Chrome, abra <b>⋮ → Transmitir, salvar e compartilhar → Instalar esta página como um app</b>. No Edge, procure <b>Aplicativos → Instalar este site como um aplicativo</b>.</dd>
+<dt data-install-platform="mac">Mac · Safari ou Chrome</dt><dd data-install-platform="mac">No Safari do macOS Sonoma 14 ou posterior, use <b>Arquivo → Adicionar ao Dock</b>. No Chrome, use a opção de instalar a página no menu ⋮.</dd>
+</dl></dialog><dialog id="roformerDialog" class="guide-dialog">
+<form method="dialog"><button class="dialog-close" aria-label="Fechar">✕</button></form>
+<h2>Testar Roformer</h2>
+<p>O áudio será processado pelo RoFormer no computador que está rodando o servidor do app.</p>
+<form id="roformerForm"><button class="primary">Separar com RoFormer</button></form>
+</dialog><div id="toast" role="status" hidden></div><script type="module" src="./app.js"></script></body></html>
